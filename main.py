@@ -43,7 +43,7 @@ class Calculator:
 
     def _save_history(self, operation, a, b, result):
         new_record = {"operation": operation, "operand1": a, "operand2": b, "result": result}
-        self.history = self.history.append(new_record, ignore_index=True)
+        self.history = self.history._append(new_record, ignore_index=True)  # Fix applied here
 
     def save_history(self, file_name="history.csv"):
         self.history.to_csv(file_name, index=False)
@@ -61,11 +61,11 @@ class Calculator:
         print(self.history)
 
     def load_plugins(self):
-        plugin_folder = 'plugins'
+        plugin_folder = 'calculator/plugins'
         for filename in os.listdir(plugin_folder):
             if filename.endswith('.py'):
                 plugin_name = filename[:-3]  # Strip off '.py'
-                module = importlib.import_module(f'plugins.{plugin_name}')
+                module = importlib.import_module(f'calculator.plugins.{plugin_name}')
                 self.plugins[plugin_name] = module
                 logger.info(f"Loaded plugin: {plugin_name}")
 
