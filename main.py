@@ -2,10 +2,10 @@ import os
 import logging
 from dotenv import load_dotenv
 
-# Load environment variables from .env
+# Loading environment variables from .env
 load_dotenv()
 
-# Configure logging
+# Configure logging based on env variable 
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
 logging.basicConfig(level=LOG_LEVEL)
 logger = logging.getLogger(__name__)
