@@ -11,4 +11,3 @@ def test_power():
 def test_log():
     assert log_plugin.run(100, 10) == 2
 
-
