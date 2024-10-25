@@ -27,10 +27,12 @@ This is an advanced Python-based calculator application built for my IS601 midte
 - Run commands like 3 + 5 or use plugin sqrt 16.
 - Manage history with save, load, history, and clear commands.
 
-## Running tests
+## Running tests and Generating Coverage Report
 - Run the following command to execute tests: 
     pytest
-
+- To run the tests and generate a coverage report:  
+    pytest --cov=calculator 
+    
 ## Calculator Design Pattern
 - Facade Pattern: Simplifies Pandas data management.
 - Command Pattern: Structure for REPL commands.
