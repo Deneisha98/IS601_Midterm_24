@@ -1,0 +1,19 @@
+[MASTER]
+# Specify main folder for code
+init-hook="import sys; sys.path.append('calculator')"
+ignore=venv
+
+[MESSAGES CONTROL]
+# Disable certain warnings that might not be relevant
+disable=
+    C0114,  # Missing module docstring
+    C0116,  # Missing function docstring
+    R0903,  # Too few public methods
+
+[FORMAT]
+# Set maximum allowed line length
+max-line-length=100
+
+[DESIGN]
+# Maximum number of arguments for functions/methods
+max-args=5
