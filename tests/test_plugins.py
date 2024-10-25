@@ -1,3 +1,4 @@
+import pytest
 import calculator.plugins.sqrt as sqrt_plugin
 import calculator.plugins.power as power_plugin
 import calculator.plugins.log as log_plugin
@@ -10,4 +11,3 @@ def test_power():
 
 def test_log():
     assert log_plugin.run(100, 10) == 2
-
