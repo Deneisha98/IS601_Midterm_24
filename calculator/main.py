@@ -4,10 +4,8 @@ import importlib
 import pandas as pd
 from dotenv import load_dotenv
 
-# Load environment variables from .env
 load_dotenv()
 
-# Configure logging
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
 logging.basicConfig(level=LOG_LEVEL)
 logger = logging.getLogger(__name__)
@@ -42,8 +40,8 @@ class Calculator:
         return result
 
     def _save_history(self, operation, a, b, result):
-        new_record = {"operation": operation, "operand1": a, "operand2": b, "result": result}
-        self.history = self.history._append(new_record, ignore_index=True)  # Fix applied here
+        new_record = {"operation": operation, "operand1": a, "operand2", b, "result": result}
+        self.history = pd.concat([self.history, pd.DataFrame([new_record])], ignore_index=True)
 
     def save_history(self, file_name="history.csv"):
         self.history.to_csv(file_name, index=False)
@@ -63,7 +61,7 @@ class Calculator:
     def load_plugins(self):
         plugin_folder = 'calculator/plugins'
         for filename in os.listdir(plugin_folder):
-            if filename.endswith('.py'):
+            if filename.endswith('.py') and filename != '__init__.py':
                 plugin_name = filename[:-3]  # Strip off '.py'
                 module = importlib.import_module(f'calculator.plugins.{plugin_name}')
                 self.plugins[plugin_name] = module
@@ -84,7 +82,7 @@ def repl():
     calculator = Calculator()
     logger.info("Starting REPL")
     while True:
-        command = input("Enter a command ('exit' to quit, 'history' to show, 'save' to save history, 'load' to load history, 'clear' to clear history): ").strip().lower()
+        command = input("Enter a command ('exit' to quit, 'history' to show, 'save' to save history, 'load' to load history, 'clear' to clear history, or plugin usage): ").strip().lower()
         if command == 'exit':
             logger.info("Exiting REPL")
             break
@@ -99,7 +97,7 @@ def repl():
         elif command.startswith('plugin'):
             parts = command.split()
             plugin_name = parts[1]
-            args = parts[2:]
+            args = [float(arg) for arg in parts[2:]]
             result = calculator.execute_plugin(plugin_name, *args)
             if result is not None:
                 print(f"Plugin result: {result}")
