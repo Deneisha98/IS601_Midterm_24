@@ -40,8 +40,8 @@ class Calculator:
         return result
 
     def _save_history(self, operation, a, b, result):
-        new_record = {"operation": operation, "operand1": a, "operand2", b, "result": result}
-        self.history = pd.concat([self.history, pd.DataFrame([new_record])], ignore_index=True)
+       new_record = {"operation": operation, "operand1": a, "operand2": b, "result": result}
+       self.history = pd.concat([self.history, pd.DataFrame([new_record])], ignore_index=True)
 
     def save_history(self, file_name="history.csv"):
         self.history.to_csv(file_name, index=False)
