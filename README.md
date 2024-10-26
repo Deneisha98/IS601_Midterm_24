@@ -38,8 +38,28 @@ This is an advanced Python-based calculator application built for my IS601 midte
 - Command Pattern: Structure for REPL commands.
 - Plugin Pattern: Dynamically load plugins for extensibility.
 
+## Environment Variables
+Environment variables, configured through .env, control logging levels:
+LOG_LEVEL: Sets log verbosity.
+Example: LOG_LEVEL=INFO
+    https://github.com/Deneisha98/IS601_Midterm_24/blob/main/calculator/main.py#L9 
+
 ## Logging Feature 
 Logging is dynamically configured using environment variables. Logs include informational messages and error handling for debugging.
+    https://github.com/Deneisha98/IS601_Midterm_24/blob/main/calculator/main.py#L36
+
+
+## Error Handling
+Implements LBYL and EAFP error-handling strategies:
+LBYL: Checks for conditions like file existence before operations.
+EAFP: Wraps potentially erroneous plugin loads in try/except blocks.
+    https://github.com/Deneisha98/IS601_Midterm_24/blob/main/calculator/main.py#L66
+
+## Video Demonstration
+A short video demonstration that shows calculator usage, features, and REPL functionality.
+
+
+
 
 
 
