@@ -20,6 +20,14 @@ def test_multiply(calculator):
 def test_divide(calculator):
     assert calculator.divide(6, 2) == 3
 
+def test_divide_large_numbers(calculator):
+    result = calculator.divide(1e10, 2)
+    assert result == 5e9
+
+def test_divide_small_numbers(calculator):
+    result = calculator.divide(1e-10, 2)
+    assert result == 5e-11
+
 def test_divide_by_zero(calculator):
     with pytest.raises(ValueError):
         calculator.divide(6, 0)
@@ -76,7 +84,7 @@ def test_invalid_command_in_repl(capfd):
     calculator.add(3, 5)
     calculator.clear_history()
     assert calculator.history.empty
-    
+
 # Test for REPL exit (simulated)
 def test_repl_exit():
     pass

@@ -1,3 +1,4 @@
+from calculator.main import Calculator
 from calculator.plugins import square
 import calculator.plugins.sqrt as sqrt_plugin
 import calculator.plugins.power as power_plugin
@@ -14,3 +15,8 @@ def test_log():
 
 def test_square():
     assert square.run(4) == 16
+
+def test_plugin_loading_error():
+    calculator = Calculator()
+    result = calculator.execute_plugin("non_existent_plugin", 5)
+    assert result is None, "Expected None for non-existent plugin"
