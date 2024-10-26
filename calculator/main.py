@@ -40,8 +40,8 @@ class Calculator:
         return result
 
     def _save_history(self, operation, a, b, result):
-       new_record = {"operation": operation, "operand1": a, "operand2": b, "result": result}
-       self.history = pd.concat([self.history, pd.DataFrame([new_record])], ignore_index=True)
+        new_record = {"operation": operation, "operand1": a, "operand2": b, "result": result}
+        self.history = pd.concat([self.history, pd.DataFrame([new_record])], ignore_index=True)
 
     def save_history(self, file_name="history.csv"):
         self.history.to_csv(file_name, index=False)
@@ -70,7 +70,6 @@ class Calculator:
                 except Exception as e:
                     logger.error(f"Failed to load plugin {plugin_name}: {e}")
 
-
     def execute_plugin(self, plugin_name, *args):
         if plugin_name in self.plugins:
             try:
@@ -84,72 +83,54 @@ class Calculator:
             logger.error(f"Plugin {plugin_name} not found")
         return None
 
-def repl():
-    calculator = Calculator()
-    logger.info("Starting REPL")
-    while True:
-        command = input("Enter a command ('exit' to quit, 'history' to show, 'save' to save history, 'load' to load history, 'clear' to clear history, or plugin usage): ").strip().lower()
-        if command == 'exit':
-            logger.info("Exiting REPL")
-            break
-        elif command == 'history':
-            calculator.show_history()
-        elif command == 'save':
-            calculator.save_history()
-        elif command == 'load':
-            calculator.load_history()
-        elif command == 'clear':
-            calculator.clear_history()
-        elif command.startswith('plugin'):
-            parts = command.split()
-            plugin_name = parts[1]
-            args = [float(arg) for arg in parts[2:]]
-            result = calculator.execute_plugin(plugin_name, *args)
-            if result is not None:
-                print(f"Plugin result: {result}")
-        else:
-            try:
+    def repl(self):
+        logger.info("Starting REPL")
+        while True:
+            command = input("Enter a command ('exit' to quit, 'history' to show, 'save' to save history, 'load' to load history, 'clear' to clear history, or plugin usage): ").strip().lower()
+            if command == 'exit':
+                logger.info("Exiting REPL")
+                break
+            elif command == 'history':
+                self.show_history()
+            elif command == 'save':
+                file_name = input("Enter file name to save history: ").strip()
+                self.save_history(file_name)
+            elif command == 'load':
+                file_name = input("Enter file name to load history: ").strip()
+                self.load_history(file_name)
+            elif command == 'clear':
+                self.clear_history()
+            elif command.startswith('plugin'):
                 parts = command.split()
-                if len(parts) == 3:
-                    a, operation, b = float(parts[0]), parts[1], float(parts[2])
-                    if operation == '+':
-                        result = calculator.add(a, b)
-                    elif operation == '-':
-                        result = calculator.subtract(a, b)
-                    elif operation == '*':
-                        result = calculator.multiply(a, b)
-                    elif operation == '/':
-                        result = calculator.divide(a, b)
+                plugin_name = parts[1]
+                args = [float(arg) for arg in parts[2:]]
+                result = self.execute_plugin(plugin_name, *args)
+                if result is not None:
+                    print(f"Plugin result: {result}")
+            else:
+                try:
+                    parts = command.split()
+                    if len(parts) == 3:
+                        a, operation, b = float(parts[0]), parts[1], float(parts[2])
+                        if operation == '+':
+                            result = self.add(a, b)
+                        elif operation == '-':
+                            result = self.subtract(a, b)
+                        elif operation == '*':
+                            result = self.multiply(a, b)
+                        elif operation == '/':
+                            result = self.divide(a, b)
+                        else:
+                            print("Unknown operation")
+                            continue
+                        print(f"Result: {result}")
+                        logger.info(f"Performed {operation} on {a} and {b} with result {result}")
                     else:
-                        print("Unknown operation")
-                        continue
-                    print(f"Result: {result}")
-                    logger.info(f"Performed {operation} on {a} and {b} with result {result}")
-                else:
-                    print("Invalid command format")
-            except Exception as e:
-                logger.error(f"Error: {e}")
-                print(f"Error: {e}")
-
-def repl(self):
-    logger.info("Starting REPL")
-    while True:
-        command = input("Enter a command ('exit' to quit, 'history' to show, 'save' to save history, 'load' to load history, 'clear' to clear history): ").strip().lower()
-        if command == 'exit':
-            logger.info("Exiting REPL")
-            break
-        elif command == 'history':
-            self.show_history()
-        elif command == 'save':
-            file_name = input("Enter file name to save history: ").strip()
-            self.save_history(file_name)
-        elif command == 'load':
-            file_name = input("Enter file name to load history: ").strip()
-            self.load_history(file_name)
-        elif command == 'clear':
-            self.clear_history()
-        else:
-            print("Invalid command")
+                        print("Invalid command format")
+                except Exception as e:
+                    logger.error(f"Error: {e}")
+                    print(f"Error: {e}")
 
 if __name__ == "__main__":
-    repl()
+    calculator = Calculator()
+    calculator.repl()  # Start the REPL from the Calculator instance
