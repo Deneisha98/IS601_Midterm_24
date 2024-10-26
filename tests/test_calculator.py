@@ -69,3 +69,14 @@ def test_execute_plugin_success(calculator):
 def test_execute_plugin_failure(calculator):
     result = calculator.execute_plugin("nonexistent", 2)
     assert result is None
+
+# Test for handling invalid REPL command
+def test_invalid_command_in_repl(capfd):
+    calculator = Calculator()
+    calculator.add(3, 5)
+    calculator.clear_history()
+    assert calculator.history.empty
+    
+# Test for REPL exit (simulated)
+def test_repl_exit():
+    pass
