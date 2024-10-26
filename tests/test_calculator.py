@@ -49,9 +49,7 @@ def test_load_history(calculator, tmpdir):
     test_file = os.path.join(tmpdir, 'test_history.csv')
     sample_data = pd.DataFrame([{"operation": "subtract", "operand1": 5, "operand2": 2, "result": 3}])
     sample_data.to_csv(test_file, index=False)
-    
     calculator.load_history(test_file)
-    
     assert len(calculator.history) == 1
     assert calculator.history.iloc[0]["operation"] == "subtract"
 
