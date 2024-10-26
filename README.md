@@ -57,8 +57,7 @@ EAFP: Wraps potentially erroneous plugin loads in try/except blocks.
 
 ## Video Demonstration
 A short video demonstration that shows calculator usage, features, and REPL functionality.
-
-
+https://drive.google.com/file/d/1ttaGz0gkWo2k0YDgnhJrrRLdDpmMdJGj/view?usp=sharing
 
 
 
