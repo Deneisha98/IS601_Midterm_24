@@ -131,5 +131,25 @@ def repl():
                 logger.error(f"Error: {e}")
                 print(f"Error: {e}")
 
+def repl(self):
+    logger.info("Starting REPL")
+    while True:
+        command = input("Enter a command ('exit' to quit, 'history' to show, 'save' to save history, 'load' to load history, 'clear' to clear history): ").strip().lower()
+        if command == 'exit':
+            logger.info("Exiting REPL")
+            break
+        elif command == 'history':
+            self.show_history()
+        elif command == 'save':
+            file_name = input("Enter file name to save history: ").strip()
+            self.save_history(file_name)
+        elif command == 'load':
+            file_name = input("Enter file name to load history: ").strip()
+            self.load_history(file_name)
+        elif command == 'clear':
+            self.clear_history()
+        else:
+            print("Invalid command")
+
 if __name__ == "__main__":
     repl()

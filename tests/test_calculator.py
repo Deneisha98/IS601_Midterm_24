@@ -83,5 +83,19 @@ def test_invalid_command_in_repl(calculator, capfd):
     calculator.clear_history()
     assert calculator.history.empty
 
+def test_show_history(calculator, capsys):
+    calculator.add(1, 2)
+    calculator.show_history()
+    captured = capsys.readouterr()
+    assert "add" in captured.out
+    assert "1" in captured.out
+    assert "2" in captured.out
+    assert "3" in captured.out
+
+def test_invalid_plugin_missing_run(calculator):
+    calculator.plugins['invalid_plugin'] = object()
+    result = calculator.execute_plugin('invalid_plugin', 5)
+    assert result is None 
+
 def test_repl_exit():
     pass
