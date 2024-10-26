@@ -2,32 +2,27 @@ name: Python Calculator CI
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
   pull_request:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.12' 
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
 
-    - name: Run tests with coverage
-      run: |
-        pytest --cov=calculator --cov-report=html
-
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: htmlcov
+      - name: Run tests with coverage
+        run: pytest --cov=calculator --cov-report=html
