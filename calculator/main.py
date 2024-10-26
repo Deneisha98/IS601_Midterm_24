@@ -63,20 +63,26 @@ class Calculator:
         for filename in os.listdir(plugin_folder):
             if filename.endswith('.py') and filename != '__init__.py':
                 plugin_name = filename[:-3]  # Strip off '.py'
-                module = importlib.import_module(f'calculator.plugins.{plugin_name}')
-                self.plugins[plugin_name] = module
-                logger.info(f"Loaded plugin: {plugin_name}")
+                try:
+                    module = importlib.import_module(f'calculator.plugins.{plugin_name}')
+                    self.plugins[plugin_name] = module
+                    logger.info(f"Loaded plugin: {plugin_name}")
+                except Exception as e:
+                    logger.error(f"Failed to load plugin {plugin_name}: {e}")
+
 
     def execute_plugin(self, plugin_name, *args):
         if plugin_name in self.plugins:
             try:
                 result = self.plugins[plugin_name].run(*args)
                 return result
+            except AttributeError as e:
+                logger.error(f"Plugin {plugin_name} missing 'run' function: {e}")
             except Exception as e:
                 logger.error(f"Error in plugin {plugin_name}: {e}")
         else:
             logger.error(f"Plugin {plugin_name} not found")
-            return None
+        return None
 
 def repl():
     calculator = Calculator()
