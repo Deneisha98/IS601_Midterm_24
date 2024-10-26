@@ -29,7 +29,7 @@ def test_divide_small_numbers(calculator):
     assert result == 5e-11
 
 def test_divide_by_zero(calculator):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Cannot divide by zero"):
         calculator.divide(6, 0)
 
 # Test saving history
@@ -50,6 +50,7 @@ def test_load_history(calculator, tmpdir):
     sample_data = pd.DataFrame([{"operation": "subtract", "operand1": 5, "operand2": 2, "result": 3}])
     sample_data.to_csv(test_file, index=False)
     calculator.load_history(test_file)
+    
     assert len(calculator.history) == 1
     assert calculator.history.iloc[0]["operation"] == "subtract"
 
@@ -76,13 +77,11 @@ def test_execute_plugin_failure(calculator):
     result = calculator.execute_plugin("nonexistent", 2)
     assert result is None
 
-# Test for handling invalid REPL command
-def test_invalid_command_in_repl(capfd):
-    calculator = Calculator()
+# Test for handling invalid REPL command (simulated)
+def test_invalid_command_in_repl(calculator, capfd):
     calculator.add(3, 5)
     calculator.clear_history()
     assert calculator.history.empty
 
-# Test for REPL exit (simulated)
 def test_repl_exit():
     pass
