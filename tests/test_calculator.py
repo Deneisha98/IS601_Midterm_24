@@ -63,6 +63,7 @@ def test_clear_history(calculator):
 
 # Test plugin loading
 def test_load_plugins(calculator):
+    calculator.load_plugins()
     assert "sqrt" in calculator.plugins
     assert "power" in calculator.plugins
     assert "log" in calculator.plugins
@@ -88,9 +89,9 @@ def test_show_history(calculator, capsys):
     calculator.show_history()
     captured = capsys.readouterr()
     assert "add" in captured.out
-    assert "1" in captured.out
-    assert "2" in captured.out
-    assert "3" in captured.out
+    assert "1" in captured.out  # Check operand 1
+    assert "2" in captured.out  # Check operand 2
+    assert "3" in captured.out  # Check result
 
 def test_invalid_plugin_missing_run(calculator):
     calculator.plugins['invalid_plugin'] = object()
