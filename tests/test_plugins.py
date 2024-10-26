@@ -11,3 +11,6 @@ def test_power():
 
 def test_log():
     assert log_plugin.run(100, 10) == 2
+
+def test_square():
+    assert square.run(4) == 16
